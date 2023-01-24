@@ -16,37 +16,48 @@
         #snake {
             z-index: 3;
             margin: 0;
-            left: 0;
-            top: 0;
+            left: 20px;
+            top: 30px;
             width: 40px;
             height: 40px;
             background: olive;
         }
         #arrivee {
-            width: 60px;
+            width: 100px;
             height: 60px;
             background: rgb(8, 7, 7);
             border-color:aquamarine;
             border-width: 2px;
             border-style: solid;
-            top: 50vh;
-            left: 70vw;
+            top: 200px;
+            left: 200px;
         }
         p{
             margin: 0;
-            padding-top: 25%;
-            text-align: center;
             color:aqua;
             font-family: 'Helvetica';
             font-weight: bold;
-            font-size: 20pt;
+            font-size: 16pt;
+        }
+        #patate {
+            padding-top: 15%;
+            text-align: center;
+        }
+        #zone_score {
+            font-family: 'Courier New';
+            font-size: 12pt;
+        }
+        #score {
+            font-weight: bolder;
+            color:brown;
         }
     </style>
 
     <div id="container">
         <main>
+            <p id="zone_score">Score : <span id="score"></span></p>
             <div id="snake"></div>
-            <div id="arrivee"><p>BJ</p></div>
+            <div id="arrivee"><p id="patate">PATATE</p></div>
         </main>
     </div>
 
@@ -64,12 +75,16 @@
         let vitesse = 20; 
 
         // sélection de la zone d'arrivée
-        const arrivee = document.getElementById('arrivee')
+        let arrivee = document.getElementById('arrivee')
 
         // sélection de ses paramètres
-        const x_a = parseInt(window.getComputedStyle(arrivee).getPropertyValue("left"));
-        const y_a = parseInt(window.getComputedStyle(arrivee).getPropertyValue("top"));
+        let x_a = parseInt(window.getComputedStyle(arrivee).getPropertyValue("left"));
+        let y_a = parseInt(window.getComputedStyle(arrivee).getPropertyValue("top"));
         const largeur_a = parseInt(window.getComputedStyle(arrivee).getPropertyValue("width"));
+
+        // score utilisateur
+        let score = document.getElementById('score');
+        let cpt = 0;
 
         document.addEventListener('keydown', (event) => {
             switch (event.key){
@@ -101,7 +116,13 @@
 
             //changement de la couleur du carré s'il entre dans la zone d'arrivée
             if ( (x + largeur >= x_a && x <= x_a + largeur_a) && (y + largeur >= y_a && y <= y_a + largeur_a) ) {
+                cpt++;
                 carre.style.background = 'tomato';
+                x_a = Math.trunc(Math.random()*window.innerWidth);
+                arrivee.style.left = x_a + "px";
+                y_a = Math.trunc(Math.random()*window.innerHeight);
+                arrivee.style.top = y_a + "px";
+                score.innerText = cpt.toString();
             } else {
                 carre.style.background = couleur_init;
             }
