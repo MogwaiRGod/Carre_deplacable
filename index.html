@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Mon beau carré</title>           
+    </head>
+</html>
+
+<body style="background: rgb(25, 24, 24)">
+    <style>
+        #snake, #arrivee {
+            position: absolute;
+        }
+        #snake {
+            z-index: 3;
+            margin: 0;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: olive;
+        }
+        #arrivee {
+            width: 60px;
+            height: 60px;
+            background: rgb(8, 7, 7);
+            border-color:aquamarine;
+            border-width: 2px;
+            border-style: solid;
+            top: 50vh;
+            left: 70vw;
+        }
+        p{
+            margin: 0;
+            padding-top: 25%;
+            text-align: center;
+            color:aqua;
+            font-family: 'Helvetica';
+            font-weight: bold;
+            font-size: 20pt;
+        }
+    </style>
+
+    <div id="container">
+        <main>
+            <div id="snake"></div>
+            <div id="arrivee"><p>BJ</p></div>
+        </main>
+    </div>
+
+    <script>
+        // sélection du carré
+        let carre = document.getElementById('snake');
+
+        // sélection de ses paramètres
+        let x = parseInt(window.getComputedStyle(carre).getPropertyValue("left"));
+        let y = parseInt(window.getComputedStyle(carre).getPropertyValue("top"));
+        const largeur = parseInt(window.getComputedStyle(carre).getPropertyValue("width"));
+        const couleur_init = window.getComputedStyle(carre).getPropertyValue("background");
+
+        // vitesse de déplacement
+        let vitesse = 20; 
+
+        // sélection de la zone d'arrivée
+        const arrivee = document.getElementById('arrivee')
+
+        // sélection de ses paramètres
+        const x_a = parseInt(window.getComputedStyle(arrivee).getPropertyValue("left"));
+        const y_a = parseInt(window.getComputedStyle(arrivee).getPropertyValue("top"));
+        const largeur_a = parseInt(window.getComputedStyle(arrivee).getPropertyValue("width"));
+
+        document.addEventListener('keydown', (event) => {
+            switch (event.key){
+                case 'ArrowUp':
+                    if( y>0) {
+                        y -= vitesse;
+                    }
+                    break;
+                case 'ArrowDown':
+                    if (y < window.innerHeight){
+                        y += vitesse;
+                    }
+                    break;
+                case 'ArrowLeft':
+                    if (x > 0){
+                        x -= vitesse;
+                    }
+                    break;
+                case 'ArrowRight':
+                    if (x < window.innerWidth){
+                        x += vitesse;
+                    }
+                    break;
+            }
+
+            // màj des coordonnées du carré
+            carre.style.top = y + "px";
+            carre.style.left = x + "px";
+
+            //changement de la couleur du carré s'il entre dans la zone d'arrivée
+            if ( (x + largeur >= x_a && x <= x_a + largeur_a) && (y + largeur >= y_a && y <= y_a + largeur_a) ) {
+                carre.style.background = 'tomato';
+            } else {
+                carre.style.background = couleur_init;
+            }
+
+            return;
+        });
+
+    </script>
+</body>
